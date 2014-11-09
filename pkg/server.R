@@ -46,7 +46,8 @@ shinyServer(function(input, output) {
   output$discount.factor<-renderPrint({
     
     # Take a dependency on input$discount.factor_button
-    input$discount.factor_button
+    if(input$discount.factor_button == 0)
+      return("Input paramerters are initialized with default values. Please Press the Run Button to Start the Program")
     
     # Use isolate() to avoid dependency on other inputs    
     isolate({
@@ -108,7 +109,8 @@ shinyServer(function(input, output) {
  output$bond.price<-renderPrint({
    
    # Take a dependency on input$price_button
-   input$bond.price_button
+   if (input$bond.price_button == 0)
+     return("Input paramerters are initialized with default values.Please Press the Run Button to Start the Program")
    
    # Use isolate() to avoid dependency on other inputs    
    isolate({
@@ -152,7 +154,8 @@ shinyServer(function(input, output) {
  #Function to Plot the Bond Price at various times with a constant discout curve####
  output$bond.price_plot<-renderPlot({   
    # Take a dependency on input$goButton
-   input$bond.price_button
+   if(input$bond.price_button == 0)
+     return("")
    
    # Use isolate() to avoid dependency on other inputs    
    isolate({
@@ -221,7 +224,9 @@ shinyServer(function(input, output) {
  output$bond.parameters<-renderPrint({
    
    # Take a dependency on input$goButton
-   input$present.value_button
+   if(input$present.value_button == 0)
+     return("Input paramerters are initialized with default values. Please Press the Run Button to Start the Program")
+   
    
    # Use isolate() to avoid dependency on other inputs    
    isolate({
@@ -363,8 +368,11 @@ shinyServer(function(input, output) {
  
  ####Function to display spot rates and forward rates####
  output$spot.rate<-renderPrint({   
+   
    # Take a dependency on input$spot.rate_button
-   input$spot.rate_button
+   if(input$spot.rate_button == 0)
+     return("Please select Initial dataset or upload your own dataset. Then Press the Run Button to Start the Program")
+   
    # Use isolate() to avoid dependency on other inputs    
    isolate({     
     #Getting the values from the function
@@ -386,7 +394,8 @@ shinyServer(function(input, output) {
  output$spot.rate_plot<-renderPlot({
   
   # Take a dependency on input$spot.rate_button
-  input$spot.rate_button  
+  if (input$spot.rate_button  == 0)
+    return("")
   # Use isolate() to avoid dependency on other inputs    
   isolate({     
     #Getting date to plot the spot rate and discount curve
@@ -403,6 +412,24 @@ shinyServer(function(input, output) {
   })
  } 
  )
+
+  #Function to Print the table of DataSet
+  output$data.table<-renderDataTable({  
+  # Take a dependency on input$spot.rate_button
+  if(input$spot.rate_button == 0)
+    return("")
+  # Use isolate() to avoid dependency on other inputs    
+  isolate({     
+    #Getting date to plot the spot rate and discount curve
+    data<-getDFSpotrate()    
+    if(is.list(data))
+    {
+      data$dat
+    }
+  })  
+}, options = list(lengthMenu = c(10,15,20,25), pageLength = 10)
+
+)
 
 })#shinyserver
 
